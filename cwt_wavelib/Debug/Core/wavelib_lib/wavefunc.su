@@ -1,0 +1,4 @@
+../Core/wavelib_lib/wavefunc.c:3:6:meyer	176	static
+../Core/wavelib_lib/wavefunc.c:98:6:gauss	208	static
+../Core/wavelib_lib/wavefunc.c:187:6:mexhat	40	static
+../Core/wavelib_lib/wavefunc.c:191:6:morlet	80	static

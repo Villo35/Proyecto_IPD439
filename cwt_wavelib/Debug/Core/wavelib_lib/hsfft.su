@@ -1,0 +1,11 @@
+../Core/wavelib_lib/hsfft.c:11:12:fft_init	48	static
+../Core/wavelib_lib/hsfft.c:56:13:mixed_radix_dit_rec	2760	static
+../Core/wavelib_lib/hsfft.c:1460:13:bluestein_exp	72	static
+../Core/wavelib_lib/hsfft.c:1493:13:bluestein_fft	144	static
+../Core/wavelib_lib/hsfft.c:1608:6:fft_exec	64	static
+../Core/wavelib_lib/hsfft.c:1632:5:divideby	16	static
+../Core/wavelib_lib/hsfft.c:1642:5:dividebyN	16	static
+../Core/wavelib_lib/hsfft.c:1701:5:factors	40	static
+../Core/wavelib_lib/hsfft.c:1821:6:twiddle	72	static
+../Core/wavelib_lib/hsfft.c:1837:6:longvectorN	64	static
+../Core/wavelib_lib/hsfft.c:1861:6:free_fft	16	static
