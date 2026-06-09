@@ -1,0 +1,4 @@
+../Core/wavelib_lib/real.c:10:17:fft_real_init	40	static
+../Core/wavelib_lib/real.c:32:6:fft_r2c_exec	88	static
+../Core/wavelib_lib/real.c:76:6:fft_c2r_exec	80	static
+../Core/wavelib_lib/real.c:105:6:free_real_fft	16	static

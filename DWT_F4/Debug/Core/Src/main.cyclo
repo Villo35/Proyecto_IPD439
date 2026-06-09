@@ -1,0 +1,15 @@
+../Core/Src/main.c:104:5:main	1
+../Core/Src/main.c:152:6:SystemClock_Config	3
+../Core/Src/main.c:198:13:MX_ETH_Init	2
+../Core/Src/main.c:247:13:MX_USART3_UART_Init	2
+../Core/Src/main.c:280:13:MX_USB_OTG_FS_PCD_Init	2
+../Core/Src/main.c:313:13:MX_DMA_Init	1
+../Core/Src/main.c:331:13:MX_GPIO_Init	1
+../Core/Src/main.c:382:6:AudioDSP_Init	1
+../Core/Src/main.c:397:6:AudioDSP_Task	2
+../Core/Src/main.c:408:13:ProcessDWT	2
+../Core/Src/main.c:427:13:SendDWTData	2
+../Core/Src/main.c:447:6:HAL_UART_RxCpltCallback	2
+../Core/Src/main.c:455:13:StartUartDmaReception	1
+../Core/Src/main.c:459:6:HAL_UART_ErrorCallback	2
+../Core/Src/main.c:473:6:Error_Handler	1

@@ -1,0 +1,8 @@
+../Core/wavelib_lib/conv.c:10:5:factorf	24	static
+../Core/wavelib_lib/conv.c:30:5:findnext	24	static
+../Core/wavelib_lib/conv.c:42:5:findnexte	24	static
+../Core/wavelib_lib/conv.c:55:13:conv_init	24	static
+../Core/wavelib_lib/conv.c:76:6:conv_directx	56	static
+../Core/wavelib_lib/conv.c:93:6:conv_direct	72	static
+../Core/wavelib_lib/conv.c:145:6:conv_fft	96	static
+../Core/wavelib_lib/conv.c:206:6:free_conv	16	static

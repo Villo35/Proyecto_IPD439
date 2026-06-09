@@ -1,0 +1,6 @@
+../Core/wavelib_lib/cwtmath.c:3:13:nsfft_fd	128	static
+../Core/wavelib_lib/cwtmath.c:66:13:nsfft_bk	128	static
+../Core/wavelib_lib/cwtmath.c:133:6:nsfft_exec	40	static
+../Core/wavelib_lib/cwtmath.c:141:15:fix	16	static
+../Core/wavelib_lib/cwtmath.c:150:5:nint	24	static
+../Core/wavelib_lib/cwtmath.c:158:8:cwt_gamma	368	static

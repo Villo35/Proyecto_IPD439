@@ -1,7 +1,7 @@
 clear; clc; close all;
 
-puerto = "COM3"; 
-baudrate = 115200; 
+puerto = "COM4"; 
+baudrate = 460800; 
 
 try
     s = serialport(puerto, baudrate);
@@ -80,7 +80,7 @@ bytes_esperados = num_bandas * num_frames * 4; % float32 = 4 bytes
 bytes_disponibles_despues = length(datos_raw) - inicio_matriz + 1;
 
 if bytes_disponibles_despues < bytes_esperados
-error(['Datos incompletos');
+error(['Datos incompletos']);
 end
 
 % Extraer bytes necesarios
@@ -115,17 +115,27 @@ xlabel('Tiempo (s)');
 ylabel('Amplitud');
 grid on;
 xlim([0 max(t_signal)]); 
-
-% señal de stm32
+% Señal de STM32
 subplot(4,1,2);
 t_frames = linspace(0, max(t_signal), frames_reales);
-imagesc(t_frames, 1:num_bandas, 10*log10(matriz_stm32 + 1));
-set(gca, 'YDir', 'normal'); 
+
+band_freq_hz = [
+     31,   62,   93,  125,  156, ...  % Bandas 1-5
+    202,  265,  327,  406,  499, ...  % Bandas 6-10
+    609,  734,  890, 1093, 1327, ...  % Bandas 11-15
+   1609, 1953, 2359, 2843, 3421, ...  % Bandas 16-20
+   4109, 4921, 5890, 6968 ...         % Bandas 21-24
+];
+
+imagesc(t_frames, band_freq_hz, 10*log10(matriz_stm32 + 1));
+shading flat;
+set(gca, 'YDir', 'normal', 'YScale', 'log');
 colormap(jet);
 title('Componentes frecuenciales calculadas en STM32 (24 Bandas)');
 xlabel('Tiempo (s)');
-ylabel('Bandas');
+ylabel('Frecuencia (Hz)');
 xlim([0 max(t_signal)]);
+ylim([31 7500]); 
 
 % STFT en maltab
 subplot(4,1,3);
@@ -134,17 +144,19 @@ hop_size = 128;
 noverlap = win_size - hop_size;
 nfft = 2048; 
 [S, F_stft, T_stft] = spectrogram(sig_test, hamming(win_size), noverlap, nfft, fs);
-S_dB = 10*log10(abs(S).^2 + eps); %pasar a escalas
+S_dB = 10*log10(abs(S).^2 + eps);
 clim_max = max(S_dB(:));
 clim_min = clim_max - 65; 
-imagesc(T_stft, F_stft, S_dB, [clim_min clim_max]);
-set(gca, 'YDir', 'normal');
+pcolor(T_stft, F_stft, S_dB);
+shading flat; 
+caxis([clim_min clim_max]);
+set(gca, 'YDir', 'normal', 'YScale', 'log');
 colormap(jet);
 title('STFT en MATLAB');
 xlabel('Tiempo (s)');
 ylabel('Frecuencia (Hz)');
 xlim([0 max(t_signal)]);
-ylim([100 7500]);
+ylim([500 8000]);
 
 % CWT MATLAB
 subplot(4,1,4);
@@ -158,4 +170,43 @@ xlabel('Tiempo (s)');
 ylabel('Frecuencia (Hz)');
 xlim([0 max(t_signal)]);
 
-clear s;
+%% slices
+
+t_eval = 0.89;
+idx_eval_sig = round(t_eval * fs) + 1;
+
+t_eval2 = 0.93; 
+idx_eval_sig2 = round(t_eval2 * fs) + 1;
+
+[~, idx_stm32] = min(abs(t_frames - t_eval2));
+[~, idx_stft] = min(abs(T_stft - t_eval));
+
+
+figure('Name', sprintf('Corte Transversal STFT en t = %.3f s', t_eval), 'Position', [150 100 800 800])
+
+subplot(3, 1, 1);
+plot(t_signal, sig_test, 'k'); hold on;
+xline(t_eval, 'r', 'LineWidth', 2, 'Label', sprintf('t = %.3f s', t_eval), 'LabelVerticalAlignment', 'bottom');
+title('Señal de Prueba en el Dominio del Tiempo');
+xlabel('Tiempo (s)');
+ylabel('Amplitud');
+grid on;
+xlim([0 max(t_signal)]);
+
+subplot(3, 1, 2);
+slice_stm32 = matriz_stm32(:, idx_stm32);
+plot(band_freq_hz, slice_stm32, '-o', 'LineWidth', 1.5, 'Color', '#D95319', 'MarkerFaceColor', '#D95319');
+title(sprintf('Slice STM32 (24 Bandas) en t = %.3f s', t_frames(idx_stm32)));
+xlabel('Frecuencia (Hz)');
+ylabel('Magnitud');
+grid on;
+set(gca, 'XScale', 'log'); 
+xlim([min(band_freq_hz) max(band_freq_hz)]);
+
+subplot(3, 1, 3);
+slice_matlab = abs(S(:, idx_stft));
+plot(F_stft, slice_matlab, '-', 'LineWidth', 1.5, 'Color', '#0072BD');
+title(sprintf('Slice STFT MATLAB en t = %.3f s', T_stft(idx_stft)));
+xlabel('Frecuencia (Hz)');
+ylabel('Magnitud');
+grid on;

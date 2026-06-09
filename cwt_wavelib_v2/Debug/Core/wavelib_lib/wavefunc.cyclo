@@ -1,0 +1,4 @@
+../Core/wavelib_lib/wavefunc.c:3:6:meyer	10
+../Core/wavelib_lib/wavefunc.c:98:6:gauss	22
+../Core/wavelib_lib/wavefunc.c:187:6:mexhat	1
+../Core/wavelib_lib/wavefunc.c:191:6:morlet	3
